@@ -2,6 +2,7 @@
   "name": "orbital-timeline",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://jocooper2018.github.io/orbital-timeline/",
   "type": "module",
   "scripts": {
     "dev": "vite",
