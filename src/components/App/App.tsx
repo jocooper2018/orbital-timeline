@@ -1,5 +1,6 @@
-import "../styles/colors.css";
+import "/src/styles/colors.css";
 import "./App.css";
+import Timeline from "../Timeline/Timeline";
 
 const App: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const App: React.FC = () => {
         <p>
           Le site est en construction.
         </p>
+        <Timeline />
       </main>
     </>
   );

@@ -1,0 +1,25 @@
+.timeline-container {
+  overflow-x: scroll;
+  padding-bottom: 0.75rem;
+}
+
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem 0 1rem;
+}
+
+.timeline > div:first-child {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.timeline > div:first-child > div {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid grey;
+  padding-left: 0.5rem;
+}

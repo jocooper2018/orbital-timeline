@@ -1,0 +1,39 @@
+{
+  "periods": [
+    {
+      "name": "Spoutnik 1",
+      "milestones": [
+        {
+          "date": "1957-10-04T19:28:34Z",
+          "name": "Lancement de Spoutnik 1"
+        },
+        {
+          "date": "1957-10-26",
+          "name": "Fin de mission de Spoutnik 1"
+        },
+        {
+          "date": "1958-01-04",
+          "name": "Désorbitation de Spoutnik 1"
+        }
+      ]
+    },
+    {
+      "name": "Apollo 11",
+      "milestones": [
+        {
+          "date": "1969-07-16",
+          "name": "Lancement d'Apollo 11"
+        },
+        {
+          "date": "1969-07-20",
+          "name": "Atterrissage sur la Lune d'Apollo 11"
+        },
+        {
+          "date": "1969-07-24",
+          "name": "Retour d'Apollo 11"
+        }
+      ]
+    }
+  ],
+  "isolatedMilestones": []
+}

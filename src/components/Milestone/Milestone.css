@@ -1,0 +1,7 @@
+.milestone {
+  position: absolute;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--main-color);
+  border-radius: 0.25rem;
+}
