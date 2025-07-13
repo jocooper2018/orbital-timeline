@@ -18,6 +18,175 @@
       ]
     },
     {
+      "name": "Spoutnik 2",
+      "milestones": [
+        {
+          "date": "1957-11-03",
+          "name": "Lancement de Spoutnik 2"
+        },
+        {
+          "date": "1958-04-14",
+          "name": "Désorbitation de Spoutnik 2"
+        }
+      ]
+    },
+    {
+      "name": "Spoutnik 3",
+      "milestones": [
+        {
+          "date": "1958-05-15",
+          "name": "Lancement de Spoutnik 3"
+        },
+        {
+          "date": "1960-04-06",
+          "name": "Désorbitation de Spoutnik 3"
+        }
+      ]
+    },
+    {
+      "name": "Spoutnik 4",
+      "milestones": [
+        {
+          "date": "1960-05-15",
+          "name": "Lancement de Spoutnik 4"
+        },
+        {
+          "date": "1960-05-19",
+          "name": "Désorbitation de Spoutnik 4"
+        }
+      ]
+    },
+    {
+      "name": "Spoutnik 5",
+      "milestones": [
+        {
+          "date": "1960-08-19",
+          "name": "Lancement de Spoutnik 5"
+        },
+        {
+          "date": "1960-08-20",
+          "name": "Désorbitation de Spoutnik 5"
+        }
+      ]
+    },
+    {
+      "name": "Venera 1",
+      "milestones": [
+        {
+          "date": "1961-02-12T00:34:36Z",
+          "name": "Lancement de Venera 1"
+        },
+        {
+          "date": "1961-02-17",
+          "name": "Fin de mission de Venera 1"
+        }
+      ]
+    },
+    {
+      "name": "Spoutnik 9",
+      "milestones": [
+        {
+          "date": "1961-03-09T06:29:00Z",
+          "name": "Lancement de Spoutnik 9"
+        },
+        {
+          "date": "1961-03-09T08:09:54Z",
+          "name": "Atterrissage de Spoutnik 9"
+        }
+      ]
+    },
+    {
+      "name": "Spoutnik 10",
+      "milestones": [
+        {
+          "date": "1961-03-25T05:54:00Z",
+          "name": "Lancement de Spoutnik 10"
+        },
+        {
+          "date": "1961-03-25T07:40Z",
+          "name": "Atterrissage de Spoutnik 10"
+        }
+      ]
+    },
+    {
+      "name": "Vostok 1",
+      "milestones": [
+        {
+          "name": "Lancement de Vostok 1",
+          "date": "1961-04-12T06:07Z"
+        },
+        {
+          "name": "Atterrissage de Vostok 1",
+          "date": "1961-04-12T07:55Z"
+        }
+      ]
+    },
+    {
+      "name": "Vostok 2",
+      "milestones": [
+        {
+          "name": "Lancement de Vostok 2",
+          "date": "1961-08-06T05:00Z"
+        },
+        {
+          "name": "Atterrissage de Vostok 2",
+          "date": "1961-08-07T07:18Z"
+        }
+      ]
+    },
+    {
+      "name": "Vostok 3",
+      "milestones": [
+        {
+          "name": "Lancement de Vostok 3",
+          "date": "1962-08-11T08:30Z"
+        },
+        {
+          "name": "Atterrissage de Vostok 3",
+          "date": "1962-08-15T06:52Z"
+        }
+      ]
+    },
+    {
+      "name": "Vostok 4",
+      "milestones": [
+        {
+          "name": "Lancement de Vostok 4",
+          "date": "1962-08-12T02:02:33Z"
+        },
+        {
+          "name": "Atterrissage de Vostok 4",
+          "date": "1962-08-15T06:59Z"
+        }
+      ]
+    },
+    {
+      "name": "Vostok 5",
+      "milestones": [
+        {
+          "name": "Lancement de Vostok 5",
+          "date": "1963-05-14T11:58:58Z"
+        },
+        {
+          "name": "Atterrissage de Vostok 5",
+          "date": "1963-05-19T11:06Z"
+        }
+      ]
+    },
+    {
+      "name": "Vostok 6",
+      "milestones": [
+        {
+          "name": "Lancement de Vostok 6",
+          "date": "1963-06-16T09:29:52Z"
+        },
+        {
+          "name": "Atterrissage de Vostok 6",
+          "date": "1963-06-19T08:20Z"
+        }
+      ]
+    },
+    {
       "name": "Apollo 11",
       "milestones": [
         {
@@ -35,5 +204,14 @@
       ]
     }
   ],
-  "isolatedMilestones": []
+  "isolatedMilestones": [
+    {
+      "date": "1960-12-01",
+      "name": "Lancement de Spoutnik 6"
+    },
+    {
+      "date": "1961-02-04",
+      "name": "Lancement de Spoutnik 7 (Venera 1)"
+    }
+  ]
 }
