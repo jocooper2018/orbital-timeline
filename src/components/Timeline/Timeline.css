@@ -1,3 +1,11 @@
+.timeline-commands {
+  margin: 1rem;
+}
+
+.timeline-commands input[type="number"] {
+  width: 3rem;
+}
+
 .timeline-container {
   overflow-x: scroll;
   padding-bottom: 0.75rem;

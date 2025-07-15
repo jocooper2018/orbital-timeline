@@ -43,7 +43,7 @@ const Period: React.FC<PeriodProps> = (props: PeriodProps) => {
       }
     }
     setLines(newLines);
-  }, []);
+  }, [props.scale]);
 
   return (
     <div className="period" ref={containerRef}>
