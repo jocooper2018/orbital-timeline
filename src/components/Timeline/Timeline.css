@@ -9,6 +9,9 @@
 .timeline-container {
   overflow-x: scroll;
   padding-bottom: 0.75rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .timeline {
@@ -16,6 +19,7 @@
   display: flex;
   flex-direction: column;
   padding: 1rem 1rem 0 1rem;
+  flex-grow: 1;
 }
 
 .timeline > div:first-child {

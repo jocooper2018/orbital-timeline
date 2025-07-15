@@ -1,15 +1,17 @@
+import "./Period.css";
 import { useEffect, useRef, useState } from "react";
 import type {
   Milestone as MilestoneT,
   Period as PeriodT,
 } from "../../types/Data";
 import Milestone from "../Milestone/Milestone";
-import "./Period.css";
 
 interface PeriodProps {
   readonly data: PeriodT;
   readonly earliestDate: Date;
+  readonly latestDate: Date;
   readonly scale: number;
+  readonly level: number;
 }
 
 interface Line {
@@ -46,7 +48,18 @@ const Period: React.FC<PeriodProps> = (props: PeriodProps) => {
   }, [props.scale]);
 
   return (
-    <div className="period" ref={containerRef}>
+    <div
+      className="period"
+      ref={containerRef}
+      style={{
+        width: `${
+          props.latestDate &&
+          props.earliestDate &&
+          (props.latestDate.getTime() - props.earliestDate.getTime()) / props.scale
+        }px`,
+        top: `${props.level * 0.5 + 1}rem`,
+      }}
+    >
       <svg>
         {lines.map((line, index) => (
           <line

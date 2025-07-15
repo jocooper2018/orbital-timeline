@@ -12,6 +12,9 @@ import { remToPx } from "../../utils/utils";
 
 const Timeline: React.FC = () => {
   const [data, setData] = useState<Data | null>(null);
+  const [periodsLevels, setPeriodsLevels] = useState<
+    { period: PeriodT; level: number }[]
+  >([]);
   const [earliestDate, setEarliestDate] = useState<Date | null>(null);
   const [latestDate, setLatestDate] = useState<Date | null>(null);
   const [baseScale, setBaseScale] = useState<number>(250000000);
@@ -20,6 +23,96 @@ const Timeline: React.FC = () => {
   const [graduations, setGraduations] = useState<React.ReactElement[]>([]);
 
   const api = useFetch();
+
+  const updateEarliestAndLatestDates = () => {
+    if (!data) {
+      console.error("no data");
+      setEarliestDate(null);
+      setLatestDate(null);
+      return;
+    }
+
+    const allMilestones: MilestoneT[] = [
+      ...data.isolatedMilestones,
+      ...data.periods.flatMap((period: PeriodT) => period.milestones),
+    ];
+    if (allMilestones.length === 0) {
+      console.error("no milestone");
+      setEarliestDate(null);
+      setLatestDate(null);
+      return;
+    }
+    let earliest = new Date(allMilestones[0].date);
+    let latest = new Date(allMilestones[0].date);
+    for (const milestone of allMilestones) {
+      const currentDate = new Date(milestone.date);
+      if (currentDate < earliest) {
+        earliest = currentDate;
+      }
+      if (currentDate > latest) {
+        latest = currentDate;
+      }
+    }
+    setEarliestDate(earliest);
+    setLatestDate(latest);
+  };
+
+  const updatePeriodsLevels = () => {
+    if (!data) {
+      return;
+    }
+
+    const findPeriodStartAndEndDate = (
+      period: PeriodT
+    ): { start: Date; end: Date } => {
+      if (period.milestones.length === 0) {
+        throw new Error("No milestones");
+      }
+      let start: Date = new Date(period.milestones[0].date);
+      let end: Date = new Date(period.milestones[0].date);
+      for (const milestone of period.milestones) {
+        const date = new Date(milestone.date);
+        if (date.getTime() < start.getTime()) {
+          start = date;
+        }
+        if (date.getTime() > end.getTime()) {
+          end = date;
+        }
+      }
+      return { start: start, end: end };
+    };
+
+    const getOverlappingPeriods = (period: PeriodT): PeriodT[] => {
+      const result: PeriodT[] = [];
+      const { start, end } = findPeriodStartAndEndDate(period);
+      for (const period2 of data.periods) {
+        const { start: start2, end: end2 } = findPeriodStartAndEndDate(period2);
+        if (period.name === period2.name || end < start2 || end2 < start) {
+          continue;
+        }
+        result.push(period2);
+      }
+      return result;
+    };
+
+    const periodsLevelsTmp: { period: PeriodT; level: number }[] = [];
+
+    for (const period of data.periods) {
+      const overlappingPeriods = getOverlappingPeriods(period);
+      let level = 1;
+      for (const overlappingPeriod of overlappingPeriods) {
+        const overlappingPeriodLevel = periodsLevelsTmp.find(
+          (_periodLevel) => _periodLevel.period.name === overlappingPeriod.name
+        )?.level;
+        if (overlappingPeriodLevel === level) {
+          level++;
+        }
+      }
+      periodsLevelsTmp.push({ period: period, level: level });
+    }
+
+    setPeriodsLevels(periodsLevelsTmp);
+  };
 
   const updateGraduations = () => {
     if (earliestDate === null || latestDate === null) {
@@ -54,36 +147,8 @@ const Timeline: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!data) {
-      console.error("no data");
-      setEarliestDate(null);
-      setLatestDate(null);
-      return;
-    }
-
-    const allMilestones: MilestoneT[] = [
-      ...data.isolatedMilestones,
-      ...data.periods.flatMap((period: PeriodT) => period.milestones),
-    ];
-    if (allMilestones.length === 0) {
-      console.error("no milestone");
-      setEarliestDate(null);
-      setLatestDate(null);
-      return;
-    }
-    let earliest = new Date(allMilestones[0].date);
-    let latest = new Date(allMilestones[0].date);
-    for (const milestone of allMilestones) {
-      const currentDate = new Date(milestone.date);
-      if (currentDate < earliest) {
-        earliest = currentDate;
-      }
-      if (currentDate > latest) {
-        latest = currentDate;
-      }
-    }
-    setEarliestDate(earliest);
-    setLatestDate(latest);
+    updateEarliestAndLatestDates();
+    updatePeriodsLevels();
   }, [data]);
 
   useEffect(() => {
@@ -133,7 +198,8 @@ const Timeline: React.FC = () => {
           <div>{graduations}</div>
           {!data
             ? "Chargement..."
-            : earliestDate && (
+            : earliestDate &&
+              latestDate && (
                 <>
                   <div className="period">
                     {data.isolatedMilestones.length !== 0 &&
@@ -147,12 +213,14 @@ const Timeline: React.FC = () => {
                         />
                       ))}
                   </div>
-                  {data.periods.map((period: PeriodT) => (
+                  {periodsLevels.map((periodLevel) => (
                     <Period
-                      key={`period-${period.name}`}
-                      data={period}
+                      key={`period-${periodLevel.period.name}`}
+                      data={periodLevel.period}
                       earliestDate={earliestDate}
+                      latestDate={latestDate}
                       scale={scale}
+                      level={periodLevel.level}
                     />
                   ))}
                 </>

@@ -4,4 +4,5 @@
   height: 0.5rem;
   background-color: var(--main-color);
   border-radius: 0.25rem;
+  transform: translateX(-0.25rem);
 }
