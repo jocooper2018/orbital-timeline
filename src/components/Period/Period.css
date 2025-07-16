@@ -1,6 +1,6 @@
 .period {
   position: absolute;
-  height: 0.5rem;
+  height: var(--milestone-marker-size);
 }
 
 .period svg {
@@ -9,10 +9,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  transform: translateX(-0.25rem);
 }
 
 .period svg line {
   stroke: var(--main-color);
-  stroke-width: 2px;
+  stroke-width: calc(var(--milestone-marker-size) / 3);
 }

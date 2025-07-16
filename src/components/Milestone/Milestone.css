@@ -1,8 +1,8 @@
 .milestone {
   position: absolute;
-  width: 0.5rem;
-  height: 0.5rem;
+  width: var(--milestone-marker-size);
+  height: var(--milestone-marker-size);
   background-color: var(--main-color);
-  border-radius: 0.25rem;
-  transform: translateX(-0.25rem);
+  border-radius: calc(var(--milestone-marker-size) / 2);
+  transform: translateX(calc(var(--milestone-marker-size) / -2));
 }

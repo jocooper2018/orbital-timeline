@@ -1,4 +1,4 @@
-import "/src/styles/colors.css";
+import "/src/styles/variables.css";
 import "./App.css";
 import Timeline from "../Timeline/Timeline";
 

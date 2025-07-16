@@ -57,7 +57,7 @@ const Period: React.FC<PeriodProps> = (props: PeriodProps) => {
           props.earliestDate &&
           (props.latestDate.getTime() - props.earliestDate.getTime()) / props.scale
         }px`,
-        top: `${props.level * 0.5 + 1}rem`,
+        top: `calc(var(--milestone-marker-size) * ${props.level} + 1rem)`,
       }}
     >
       <svg>

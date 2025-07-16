@@ -2,4 +2,6 @@
   --text-color: black;
   --bg-color: white;
   --main-color: blue;
+
+  --milestone-marker-size: 0.5rem;
 }
