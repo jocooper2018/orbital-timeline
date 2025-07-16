@@ -15,6 +15,7 @@ const Timeline: React.FC = () => {
   const [periodsLevels, setPeriodsLevels] = useState<
     { period: PeriodT; level: number }[]
   >([]);
+  const [levelMax, setLevelMax] = useState<number>(1);
   const [earliestDate, setEarliestDate] = useState<Date | null>(null);
   const [latestDate, setLatestDate] = useState<Date | null>(null);
   const [baseScale, setBaseScale] = useState<number>(250000000);
@@ -169,6 +170,16 @@ const Timeline: React.FC = () => {
     updateGraduations();
   }, [scale]);
 
+  useEffect(() => {
+    let max: number = 1;
+    for (const periodLevel of periodsLevels) {
+      if (max < periodLevel.level) {
+        max = periodLevel.level;
+      }
+    }
+    setLevelMax(max);
+  }, [periodsLevels]);
+
   return (
     <>
       <div className="timeline-commands">
@@ -193,6 +204,7 @@ const Timeline: React.FC = () => {
               earliestDate &&
               (latestDate.getTime() - earliestDate.getTime()) / scale
             }px`,
+            minHeight: `calc(var(--milestone-marker-size) * ${levelMax + 1})`,
           }}
         >
           <div>{graduations}</div>
