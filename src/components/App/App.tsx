@@ -11,9 +11,7 @@ const App: React.FC = () => {
           Orbital Timeline est une frise chronologique interactive sur
           l'histoire de l'exploration spatiale.
         </p>
-        <p>
-          Le site est en construction.
-        </p>
+        <p>Le site est en construction.</p>
         <Timeline />
       </main>
     </>

@@ -3,15 +3,9 @@
   height: var(--milestone-marker-size);
 }
 
-.period svg {
+.period .line {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.period svg line {
-  stroke: var(--main-color);
-  stroke-width: calc(var(--milestone-marker-size) / 3);
+  top: calc(var(--milestone-marker-size) / 3);
+  height: calc(var(--milestone-marker-size) / 3);
+  background-color: var(--main-color);
 }

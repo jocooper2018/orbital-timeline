@@ -4,3 +4,9 @@ export const remToPx = (rem: number): number => {
   );
   return rem * rootFontSize;
 };
+
+export const getCssVariableValue = (variableName: string): string => {
+  const root: HTMLElement = document.documentElement;
+  const styles: CSSStyleDeclaration = getComputedStyle(root);
+  return styles.getPropertyValue(variableName).trim();
+};

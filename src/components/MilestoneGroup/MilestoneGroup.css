@@ -1,0 +1,6 @@
+.milestone-group {
+  position: absolute;
+  height: var(--milestone-marker-size);
+  background-color: var(--main-color);
+  border-radius: calc(var(--milestone-marker-size) / 4);
+}

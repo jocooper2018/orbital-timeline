@@ -218,7 +218,6 @@ const Timeline: React.FC = () => {
                       data.isolatedMilestones.map((milestone: MilestoneT) => (
                         <Milestone
                           key={`milestone-${milestone.name}`}
-                          ref={null}
                           data={milestone}
                           earliestDate={earliestDate}
                           scale={scale}
