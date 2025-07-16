@@ -1,5 +1,5 @@
 import "./Timeline.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import type {
   Data,
@@ -22,6 +22,8 @@ const Timeline: React.FC = () => {
   const [zoom, setZoom] = useState<number>(1);
   const [scale, setScale] = useState<number>(250000000);
   const [graduations, setGraduations] = useState<React.ReactElement[]>([]);
+
+  const timelineContainerRef = useRef<HTMLDivElement | null>(null);
 
   const api = useFetch();
 
@@ -195,7 +197,7 @@ const Timeline: React.FC = () => {
           />
         </label>
       </div>
-      <div className="timeline-container">
+      <div className="timeline-container" ref={timelineContainerRef}>
         <div
           className="timeline"
           style={{
@@ -221,6 +223,7 @@ const Timeline: React.FC = () => {
                           data={milestone}
                           earliestDate={earliestDate}
                           scale={scale}
+                          scrollableParentRef={timelineContainerRef}
                         />
                       ))}
                   </div>
@@ -232,6 +235,7 @@ const Timeline: React.FC = () => {
                       latestDate={latestDate}
                       scale={scale}
                       level={periodLevel.level}
+                      scrollableParentRef={timelineContainerRef}
                     />
                   ))}
                 </>

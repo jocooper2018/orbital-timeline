@@ -3,4 +3,51 @@
   height: var(--milestone-marker-size);
   background-color: var(--main-color);
   border-radius: calc(var(--milestone-marker-size) / 4);
+  transition: transform 250ms ease;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.milestone-group:hover {
+  transform: scale(1.2);
+}
+
+.milestone-group + .milestone-list {
+  position: absolute;
+  visibility: hidden;
+  top: calc(var(--milestone-marker-size) * 1.5);
+  left: calc(var(--milestone-marker-size) / 2);
+  width: 10rem;
+  padding: 0.25rem;
+  background-color: var(--bg-color);
+  border-radius: 0.25rem;
+  box-shadow: var(--shadow);
+  transform: translateX(-50%) scale(0);
+  z-index: 4;
+  transition: transform 250ms ease, visibility 0ms linear 250ms;
+  pointer-events: none;
+}
+
+.milestone-group + .milestone-list ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.milestone-group:hover + .milestone-list {
+  visibility: visible;
+  transition: transform 250ms ease, visibility 0ms linear 0ms;
+  pointer-events: auto;
+}
+
+.milestone-group:not(.near-left-edge):not(.near-right-edge):hover
+  + .milestone-list {
+  transform: translateX(-50%) scale(1);
+}
+
+.milestone-group.near-left-edge:hover + .milestone-list {
+  transform: translateX(0) scale(1);
+}
+
+.milestone-group.near-right-edge:hover + .milestone-list {
+  transform: translateX(-10rem) scale(1);
 }

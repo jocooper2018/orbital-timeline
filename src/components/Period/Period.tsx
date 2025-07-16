@@ -14,6 +14,7 @@ interface PeriodProps {
   readonly latestDate: Date;
   readonly scale: number;
   readonly level: number;
+  readonly scrollableParentRef: React.RefObject<HTMLElement | null>;
 }
 
 const Period: React.FC<PeriodProps> = (props: PeriodProps) => {
@@ -41,6 +42,7 @@ const Period: React.FC<PeriodProps> = (props: PeriodProps) => {
               data={sortedMilestones[i]}
               earliestDate={props.earliestDate}
               scale={props.scale}
+              scrollableParentRef={props.scrollableParentRef}
             />
           );
           j++;
@@ -51,6 +53,7 @@ const Period: React.FC<PeriodProps> = (props: PeriodProps) => {
               data={[...milestoneGroup]}
               earliestDate={props.earliestDate}
               scale={props.scale}
+              scrollableParentRef={props.scrollableParentRef}
             />
           );
           j++;
@@ -81,6 +84,7 @@ const Period: React.FC<PeriodProps> = (props: PeriodProps) => {
             data={sortedMilestones[i]}
             earliestDate={props.earliestDate}
             scale={props.scale}
+            scrollableParentRef={props.scrollableParentRef}
           />
         );
         j++;
@@ -91,6 +95,7 @@ const Period: React.FC<PeriodProps> = (props: PeriodProps) => {
             data={[...milestoneGroup]}
             earliestDate={props.earliestDate}
             scale={props.scale}
+            scrollableParentRef={props.scrollableParentRef}
           />
         );
         j++;

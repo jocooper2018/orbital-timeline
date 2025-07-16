@@ -3,5 +3,7 @@
   --bg-color: white;
   --main-color: blue;
 
-  --milestone-marker-size: 0.5rem;
+  --shadow: 0 0 0.5rem #0000003f;
+
+  --milestone-marker-size: 1rem;
 }

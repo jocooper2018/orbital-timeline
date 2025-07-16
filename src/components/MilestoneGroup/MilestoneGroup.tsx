@@ -1,11 +1,13 @@
 import "./MilestoneGroup.css";
 import { useEffect, useState } from "react";
 import type { Milestone as MilestoneT } from "../../types/Data";
+import { useProximityToEdge } from "../../hooks/useProximityToEdge";
 
 interface MilestoneProps {
   readonly data: MilestoneT[];
   readonly earliestDate: Date;
   readonly scale: number;
+  readonly scrollableParentRef: React.RefObject<HTMLElement | null>;
 }
 
 const MilestoneGroup: React.FC<MilestoneProps> = (props: MilestoneProps) => {
@@ -14,6 +16,12 @@ const MilestoneGroup: React.FC<MilestoneProps> = (props: MilestoneProps) => {
   );
   const [latestMilestone, setLatestMilestone] = useState<MilestoneT | null>(
     null
+  );
+
+  const { nearEdges, ref } = useProximityToEdge<HTMLDivElement>(
+    5,
+    [props.scale],
+    props.scrollableParentRef
   );
 
   useEffect(() => {
@@ -42,21 +50,46 @@ const MilestoneGroup: React.FC<MilestoneProps> = (props: MilestoneProps) => {
   }
 
   return (
-    <div
-      className="milestone-group"
-      style={{
-        left: `calc(${
-          (new Date(earliestMilestone.date).getTime() -
-            props.earliestDate.getTime()) /
-          props.scale
-        }px - (var(--milestone-marker-size) / 4))`,
-        width: `calc(${
-          (new Date(latestMilestone.date).getTime() -
-            new Date(earliestMilestone.date).getTime()) /
-          props.scale
-        }px + (var(--milestone-marker-size) / 2))`,
-      }}
-    />
+    <>
+      <div
+        ref={ref}
+        className={`milestone-group${
+          nearEdges.includes("left")
+            ? " near-left-edge"
+            : nearEdges.includes("right")
+            ? " near-right-edge"
+            : ""
+        }`}
+        style={{
+          left: `calc(${
+            (new Date(earliestMilestone.date).getTime() -
+              props.earliestDate.getTime()) /
+            props.scale
+          }px - (var(--milestone-marker-size) / 4))`,
+          width: `calc(${
+            (new Date(latestMilestone.date).getTime() -
+              new Date(earliestMilestone.date).getTime()) /
+            props.scale
+          }px + (var(--milestone-marker-size) / 2))`,
+        }}
+      />
+      <div
+        className="milestone-list"
+        style={{
+          left: `calc(${
+            (new Date(earliestMilestone.date).getTime() -
+              props.earliestDate.getTime()) /
+            props.scale
+          }px - (var(--milestone-marker-size) / 4))`,
+        }}
+      >
+        <ul>
+          {props.data.map((milestone) => (
+            <li>{milestone.name}</li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 

@@ -5,4 +5,46 @@
   background-color: var(--main-color);
   border-radius: calc(var(--milestone-marker-size) / 2);
   transform: translateX(calc(var(--milestone-marker-size) / -2));
+  transition: transform 250ms ease;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.milestone:hover {
+  transform: translateX(calc(var(--milestone-marker-size) / -2)) scale(1.2);
+}
+
+.milestone + .name-popup {
+  position: absolute;
+  visibility: hidden;
+  top: calc(var(--milestone-marker-size) * 1.5);
+  left: calc(var(--milestone-marker-size) / 2);
+  width: 10rem;
+  padding: 0.25rem;
+  background-color: var(--bg-color);
+  border-radius: 0.25rem;
+  box-shadow: var(--shadow);
+  text-align: center;
+  transform: translateX(-50%) scale(0);
+  z-index: 4;
+  transition: transform 250ms ease, visibility 0ms linear 250ms;
+  pointer-events: none;
+}
+
+.milestone:hover + .name-popup {
+  visibility: visible;
+  transition: transform 250ms ease, visibility 0ms linear 0ms;
+  pointer-events: auto;
+}
+
+.milestone:not(.near-left-edge):not(.near-right-edge):hover + .name-popup {
+  transform: translateX(-50%) scale(1);
+}
+
+.milestone.near-left-edge:hover + .name-popup {
+  transform: translateX(-0.5rem) scale(1);
+}
+
+.milestone.near-right-edge:hover + .name-popup {
+  transform: translateX(-10rem) scale(1);
 }
