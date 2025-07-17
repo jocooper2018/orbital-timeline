@@ -8,7 +8,11 @@ import type {
 } from "../../types/Data";
 import Period from "../Period/Period";
 import Milestone from "../Milestone/Milestone";
-import { remToPx } from "../../utils/utils";
+import {
+  getMonthNames,
+  getNumberOfDayInAMonth,
+  remToPx,
+} from "../../utils/utils";
 
 const Timeline: React.FC = () => {
   const [data, setData] = useState<Data | null>(null);
@@ -22,6 +26,8 @@ const Timeline: React.FC = () => {
   const [zoom, setZoom] = useState<number>(1);
   const [scale, setScale] = useState<number>(250000000);
   const [graduations, setGraduations] = useState<React.ReactElement[]>([]);
+  const [scrollStartDate, setScrollStartDate] = useState<Date | null>(null);
+  const [scrollEndDate, setScrollEndDate] = useState<Date | null>(null);
 
   const timelineContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -118,29 +124,141 @@ const Timeline: React.FC = () => {
   };
 
   const updateGraduations = () => {
-    if (earliestDate === null || latestDate === null) {
+    if (
+      earliestDate === null ||
+      latestDate === null ||
+      scrollStartDate === null ||
+      scrollEndDate === null
+    ) {
       setGraduations([]);
+      console.error("Dates are null");
       return;
     }
     const graduationsTmp: React.ReactElement[] = [];
-    let currentYear = earliestDate.getUTCFullYear() + 1;
-    while (currentYear <= latestDate.getUTCFullYear()) {
-      graduationsTmp.push(
-        <div
-          key={`graduation-${currentYear}`}
-          style={{
-            left: `${
-              (new Date(`${currentYear}`).getTime() - earliestDate.getTime()) /
-              scale
-            }px`,
-          }}
-        >
-          {currentYear}
-        </div>
-      );
-      currentYear++;
+    const yearWidth = (Date.UTC(1971) - Date.UTC(1970)) / scale;
+    const monthWidth = (Date.UTC(1970, 2) - Date.UTC(1970, 1)) / scale;
+    const dayWidth = (Date.UTC(1970, 0, 2) - Date.UTC(1970, 0, 1)) / scale;
+    let currentYear = scrollStartDate.getUTCFullYear();
+    let currentMonth = scrollStartDate.getUTCMonth();
+    let currentDay = scrollStartDate.getUTCDate();
+    let nbDays = getNumberOfDayInAMonth(currentYear, currentMonth);
+    while (
+      Date.UTC(currentYear, currentMonth, currentDay) <=
+      Math.min(scrollEndDate.getTime(), latestDate.getTime())
+    ) {
+      if (currentMonth === 0 && currentDay === 1) {
+        graduationsTmp.push(
+          <div
+            key={`graduation-${currentYear}-${currentMonth + 1}-${currentDay}`}
+            id={`graduation-${currentYear}-${currentMonth + 1}-${currentDay}`}
+            className={`graduation ${
+              currentYear % 10 === 0 ? "decade" : "year"
+            }`}
+            style={{
+              left: `${
+                (Date.UTC(currentYear, currentMonth, currentDay) -
+                  earliestDate.getTime()) /
+                scale
+              }px`,
+            }}
+          >
+            {(yearWidth > remToPx(3) || currentYear % 10 === 0) && (
+              <span className={currentYear % 10 === 0 ? "decade" : "year"}>
+                {currentYear}
+              </span>
+            )}
+            {monthWidth > remToPx(1.5) && (
+              <span className="month">
+                {
+                  getMonthNames(
+                    "fr-FR",
+                    monthWidth > remToPx(5.5)
+                      ? "long"
+                      : monthWidth > remToPx(3)
+                      ? "short"
+                      : "narrow"
+                  )[currentMonth]
+                }
+              </span>
+            )}
+            {dayWidth > remToPx(2) && <span className="day">{currentDay}</span>}
+          </div>
+        );
+      } else if (currentDay === 1 && monthWidth > remToPx(1)) {
+        graduationsTmp.push(
+          <div
+            key={`graduation-${currentYear}-${currentMonth + 1}-${currentDay}`}
+            id={`graduation-${currentYear}-${currentMonth + 1}-${currentDay}`}
+            className="graduation month"
+            style={{
+              left: `${
+                (Date.UTC(currentYear, currentMonth, currentDay) -
+                  earliestDate.getTime()) /
+                scale
+              }px`,
+            }}
+          >
+            {monthWidth > remToPx(1.5) && (
+              <span className="month">
+                {
+                  getMonthNames(
+                    "fr-FR",
+                    monthWidth > remToPx(5.5)
+                      ? "long"
+                      : monthWidth > remToPx(3)
+                      ? "short"
+                      : "narrow"
+                  )[currentMonth]
+                }
+              </span>
+            )}
+            {dayWidth > remToPx(2) && <span className="day">{currentDay}</span>}
+          </div>
+        );
+      } else if (dayWidth > remToPx(1)) {
+        graduationsTmp.push(
+          <div
+            key={`graduation-${currentYear}-${currentMonth + 1}-${currentDay}`}
+            id={`graduation-${currentYear}-${currentMonth + 1}-${currentDay}`}
+            className="graduation day"
+            style={{
+              left: `${
+                (Date.UTC(currentYear, currentMonth, currentDay) -
+                  earliestDate.getTime()) /
+                scale
+              }px`,
+            }}
+          >
+            {dayWidth > remToPx(2) && <span className="day">{currentDay}</span>}
+          </div>
+        );
+      }
+      if (currentDay < nbDays) {
+        currentDay++;
+      } else if (currentMonth < 11) {
+        currentDay = 1;
+        currentMonth++;
+        nbDays = getNumberOfDayInAMonth(currentYear, currentMonth);
+      } else {
+        currentDay = 1;
+        currentMonth = 0;
+        currentYear++;
+        nbDays = getNumberOfDayInAMonth(currentYear, currentMonth);
+      }
     }
     setGraduations(graduationsTmp);
+  };
+
+  const handleScroll = () => {
+    if (!timelineContainerRef.current || !earliestDate) return;
+    const scroll = timelineContainerRef.current.scrollLeft;
+    const containerWidth = timelineContainerRef.current.clientWidth;
+    const startDate = new Date(
+      (scroll - remToPx(1)) * scale + earliestDate.getTime()
+    ); // The remToPx(1) is here to take the timeline padding into account
+    const endDate = new Date(startDate.getTime() + containerWidth * scale);
+    setScrollStartDate(startDate);
+    setScrollEndDate(endDate);
   };
 
   useEffect(() => {
@@ -152,6 +270,7 @@ const Timeline: React.FC = () => {
   useEffect(() => {
     updateEarliestAndLatestDates();
     updatePeriodsLevels();
+    handleScroll();
   }, [data]);
 
   useEffect(() => {
@@ -170,6 +289,10 @@ const Timeline: React.FC = () => {
 
   useEffect(() => {
     updateGraduations();
+  }, [scrollStartDate, scrollEndDate]);
+
+  useEffect(() => {
+    handleScroll();
   }, [scale]);
 
   useEffect(() => {
@@ -197,7 +320,11 @@ const Timeline: React.FC = () => {
           />
         </label>
       </div>
-      <div className="timeline-container" ref={timelineContainerRef}>
+      <div
+        className="timeline-container"
+        ref={timelineContainerRef}
+        onScroll={handleScroll}
+      >
         <div
           className="timeline"
           style={{
@@ -209,7 +336,7 @@ const Timeline: React.FC = () => {
             minHeight: `calc(var(--milestone-marker-size) * ${levelMax + 1})`,
           }}
         >
-          <div>{graduations}</div>
+          <div className="graduations">{graduations}</div>
           {!data
             ? "Chargement..."
             : earliestDate &&

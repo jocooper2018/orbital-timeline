@@ -18,20 +18,55 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 1rem 1rem 0 1rem;
+  padding: 5rem 1rem 0 1rem;
   flex-grow: 1;
 }
 
-.timeline > div:first-child {
+.timeline .graduations {
   position: absolute;
   top: 0;
   bottom: 0;
 }
 
-.timeline > div:first-child > div {
+.timeline .graduations .graduation {
   position: absolute;
   top: 0;
   bottom: 0;
-  border-left: 1px solid grey;
+  /* border-left: 1px solid grey; */
   padding-left: 0.5rem;
+}
+
+.timeline .graduations .graduation.decade {
+  border-left: 2px solid #000000;
+}
+
+.timeline .graduations .graduation.year {
+  border-left: 1px solid #3f3f3f;
+}
+
+.timeline .graduations .graduation.month {
+  border-left: 1px solid #bfbfbf;
+}
+
+.timeline .graduations .graduation.day {
+  border-left: 1px solid #dfdfdf;
+}
+
+.timeline .graduations .graduation span {
+  position: absolute;
+  z-index: 1;
+  background-color: var(--bg-color);
+  left: 0.5rem;
+}
+
+.timeline .graduations .graduation .year {
+  top: 0;
+}
+
+.timeline .graduations .graduation .month {
+  top: 1.5rem;
+}
+
+.timeline .graduations .graduation .day {
+  top: 3rem;
 }

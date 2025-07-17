@@ -85,7 +85,7 @@ const MilestoneGroup: React.FC<MilestoneProps> = (props: MilestoneProps) => {
       >
         <ul>
           {props.data.map((milestone) => (
-            <li>{milestone.name}</li>
+            <li key={`milestone-${milestone.name}`}>{milestone.name}</li>
           ))}
         </ul>
       </div>

@@ -104,6 +104,7 @@ const Period: React.FC<PeriodProps> = (props: PeriodProps) => {
       milestonesTmp.push(
         <div
           className="line"
+          key={`milestone-line-${sortedMilestones[i].name}`}
           style={{
             left: `${
               (new Date(sortedMilestones[i].date).getTime() -
@@ -129,7 +130,7 @@ const Period: React.FC<PeriodProps> = (props: PeriodProps) => {
           (props.latestDate.getTime() - props.earliestDate.getTime()) /
             props.scale
         }px`,
-        top: `calc(var(--milestone-marker-size) * ${props.level} + 1rem)`,
+        top: `calc(var(--milestone-marker-size) * ${props.level} + 5rem)`,
       }}
     >
       {milestones}
