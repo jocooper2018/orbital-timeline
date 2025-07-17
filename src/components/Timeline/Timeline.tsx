@@ -284,7 +284,7 @@ const Timeline: React.FC = () => {
   }, [earliestDate, latestDate]);
 
   useEffect(() => {
-    setScale(baseScale / zoom);
+    setScale(baseScale / (zoom * zoom));
   }, [baseScale, zoom]);
 
   useEffect(() => {
