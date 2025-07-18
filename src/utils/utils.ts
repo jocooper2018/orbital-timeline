@@ -37,3 +37,11 @@ export const getMonthNames = (
     return formatter.format(date);
   });
 };
+
+/**
+ * 
+ * @param time Time in milliseconds.
+ */
+export const sleep = async (time: number): Promise<void> => {
+  await new Promise<void>((resolve) => setTimeout(resolve, time));
+};

@@ -12,6 +12,7 @@ import {
   getMonthNames,
   getNumberOfDayInAMonth,
   remToPx,
+  sleep,
 } from "../../utils/utils";
 
 const Timeline: React.FC = () => {
@@ -30,6 +31,7 @@ const Timeline: React.FC = () => {
   const [scrollEndDate, setScrollEndDate] = useState<Date | null>(null);
 
   const timelineContainerRef = useRef<HTMLDivElement | null>(null);
+  const timelineRef = useRef<HTMLDivElement | null>(null);
 
   const api = useFetch();
 
@@ -284,8 +286,24 @@ const Timeline: React.FC = () => {
   }, [earliestDate, latestDate]);
 
   useEffect(() => {
-    setScale(baseScale / (zoom * zoom));
-  }, [baseScale, zoom]);
+    setScale(baseScale / Math.pow(zoom, Math.log(zoom + 1)));
+  }, [baseScale]);
+
+  useEffect(() => {
+    (async () => {
+      if (!timelineContainerRef.current || !timelineRef.current) return;
+      const oldWidth = timelineRef.current.clientWidth;
+      const oldScrollPos = timelineContainerRef.current.scrollLeft;
+      const oldCenter = oldScrollPos + window.innerWidth / 2;
+      const normalizedCenter = oldCenter / oldWidth;
+      setScale(baseScale / Math.pow(zoom, Math.log(zoom + 1)));
+      await sleep(0);
+      const newWidth = timelineRef.current.clientWidth;
+      const newCenter = newWidth * normalizedCenter;
+      const newScrollPos = newCenter - window.innerWidth / 2;
+      timelineContainerRef.current.scrollLeft = newScrollPos;
+    })();
+  }, [zoom]);
 
   useEffect(() => {
     updateGraduations();
@@ -327,6 +345,7 @@ const Timeline: React.FC = () => {
       >
         <div
           className="timeline"
+          ref={timelineRef}
           style={{
             width: `${
               latestDate &&
